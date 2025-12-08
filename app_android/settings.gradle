@@ -1,0 +1,3 @@
+rootProject.name = "NoteroSuperApp"
+include(":app")
+

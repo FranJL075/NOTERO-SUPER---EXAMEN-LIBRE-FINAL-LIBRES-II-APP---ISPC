@@ -100,6 +100,36 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
+# ---------------- Logging seguro ----------------
+class SensitiveDataFilter:
+    SENSITIVE_KEYS = {"authorization", "password", "token"}
+
+    def filter(self, record):
+        if isinstance(record.args, dict):
+            record.args = {k: ("***" if k.lower() in self.SENSITIVE_KEYS else v) for k, v in record.args.items()}
+        return True
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {
+        "sanitize": {
+            "()": SensitiveDataFilter,
+        }
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "filters": ["sanitize"],
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+}
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://10.0.2.2:3000",  # Android emulator

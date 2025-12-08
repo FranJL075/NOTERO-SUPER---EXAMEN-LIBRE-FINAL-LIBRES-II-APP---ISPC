@@ -1,0 +1,30 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.notero.superapp">
+
+    <application
+        android:allowBackup="true"
+        android:label="Notero Super"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.NoteroSuper">
+
+        <activity android:name=".ui.ImportTxtActivity" />
+        <activity android:name=".ui.ListaDetailActivity" />
+        <activity android:name=".ui.ListasActivity" />
+        <activity android:name=".ui.PromocionesActivity" />
+        <activity android:name=".ui.PerfilActivity" />
+        <activity android:name=".ui.HomeActivity" />
+        <activity android:name=".ui.RegistroActivity" />
+        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
+

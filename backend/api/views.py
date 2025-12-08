@@ -1,6 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+import re  # Sanitización de entradas
 from django.contrib.auth import get_user_model
 from rest_framework.generics import CreateAPIView
 
@@ -39,8 +40,12 @@ class ListaViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["post"])
     def add_items_bulk(self, request, pk=None):
         lista = self.get_object()
-        codigos = request.data.get("codigos", [])
+        raw_codigos = request.data.get("codigos", [])
+        # Sanitizamos cada código permitiendo solo alfanuméricos 3-128 caracteres
+        pattern = re.compile(r"^[A-Za-z0-9]{3,128}$")
+        codigos = [c.strip() for c in raw_codigos if pattern.fullmatch(str(c).strip())]
         added = []
+        invalid = list(set(raw_codigos) - set(codigos))
         for codigo in codigos:
             try:
                 producto = Producto.objects.get(codigo=codigo)
@@ -53,7 +58,7 @@ class ListaViewSet(viewsets.ModelViewSet):
                 added.append(codigo)
             except Producto.DoesNotExist:
                 pass
-        return Response({"added": added})
+        return Response({"added": added, "invalid": invalid})
 
     @action(detail=True, methods=["post"])
     def check_price_changes(self, request, pk=None):
