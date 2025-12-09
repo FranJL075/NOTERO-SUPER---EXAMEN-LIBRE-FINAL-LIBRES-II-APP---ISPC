@@ -1,40 +1,57 @@
-# PresuMarket – App de presupuestos de supermercado
+# Notero Super App – Proyecto Full-Stack Móvil y Web
 
-Este repositorio contiene un **backend FastAPI + PostgreSQL** y la guía para levantar el front-end móvil con Flutter.
+Este repositorio contiene **tres módulos principales** (Android nativo, API Django y App React Native) junto con toda la documentación y scripts de base de datos necesarios.
 
-## Estructura
+## Estructura del repositorio
+
+```text
+android/             → Aplicación Android escrita en Kotlin (antes `app_android`)
+backend/             → API REST Django + DRF
+frontend/            → App móvil Expo React Native
+Documentación/       → Documentos funcionales, pruebas, ciberseguridad, diagramas
+   ├─ Arquitectura.md
+   ├─ Riesgos_ISO27001.md
+   ├─ Matriz_Pruebas.md
+   └─ …
+database/            → Scripts SQL (schema y datos de ejemplo)
 ```
-backend/            → código FastAPI
-  ├─ database.py    → conexión SQLAlchemy
-  ├─ models.py      → modelos ORM
-  ├─ schemas.py     → Pydantic
-  ├─ crud.py        → operaciones básicas
-  ├─ main.py        → punto de entrada (uvicorn)
-  └─ requirements.txt
 
-db/schema.sql       → script SQL 3FN
-```
+## Requisitos rápidos
 
-## Instalación rápida del backend
+| Módulo   | Stack                              | Requisitos |
+|----------|------------------------------------|------------|
+| android  | Kotlin + Gradle 8                  | JDK 17, Android Studio Flamingo |
+| backend  | Python 3.11 + Django 4.2           | `pip install -r backend/requirements.txt` |
+| frontend | Expo SDK 50 (React Native 0.73)    | `npm install` con Node 18 |
+
+## Primeros pasos
+
+### 1. Backend
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r backend/requirements.txt
-# Exporta la URL de tu base
-export DATABASE_URL="postgresql+psycopg2://user:pass@localhost:5432/presupuesto_db"
-# Crear tablas
-python - <<'PY'
-from backend.database import Base, engine
-import backend.models  # noqa: F401 – registra modelos
-Base.metadata.create_all(bind=engine)
-PY
-# Correr servidor
-uvicorn backend.main:app --reload
+# Variables de entorno (ejemplo para SQLite)
+export DJANGO_SECRET_KEY="changeme"
+export DATABASE_URL="sqlite:///db.sqlite3"
+python backend/manage.py migrate
+python backend/manage.py runserver
 ```
 
-## Siguiente paso (front-end)
-1. `flutter create presu_market`
-2. Agrega paquetes: `mobile_scanner`, `dio`, `flutter_secure_storage`, `provider`.
-3. Implementa pantallas siguiendo los nombres y flujos del documento `road-map`.
+### 2. Frontend (Expo)
+```bash
+cd frontend
+npm install
+npm run android   # ó ios / web según tu plataforma
+```
 
----
-Licencia MIT – 2025 
+### 3. Android nativo
+```bash
+cd android
+./gradlew :app:installDebug
+```
+
+## Documentación
+Todos los documentos (pruebas, políticas de seguridad, diagramas de navegación, etc.) se encuentran en el directorio `Documentación/`.
+
+## Licencia
+MIT – 2025 
