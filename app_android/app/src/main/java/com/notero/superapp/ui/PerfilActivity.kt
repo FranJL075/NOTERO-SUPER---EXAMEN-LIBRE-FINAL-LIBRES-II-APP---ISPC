@@ -13,6 +13,12 @@ class PerfilActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // TODO load and edit profile data
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }
 

@@ -16,6 +16,8 @@ class ListasActivity : AppCompatActivity() {
         binding = ActivityListasBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         // Fetch lists demonstration
         lifecycleScope.launch {
             // TODO fetch lists from backend
@@ -28,6 +30,11 @@ class ListasActivity : AppCompatActivity() {
             intent.putExtra("listId", 1)
             startActivity(intent)
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }
 

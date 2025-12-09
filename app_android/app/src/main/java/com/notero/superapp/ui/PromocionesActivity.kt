@@ -13,6 +13,12 @@ class PromocionesActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // TODO load promos
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }
 

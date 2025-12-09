@@ -12,8 +12,15 @@ class ListaDetailActivity : AppCompatActivity() {
         binding = ActivityListaDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val listId = intent.getIntExtra("listId", -1)
         // TODO load list products by id and show images
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }
 

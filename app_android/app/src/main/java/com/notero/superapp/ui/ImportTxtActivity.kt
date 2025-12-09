@@ -27,6 +27,12 @@ class ImportTxtActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnPickFile.setOnClickListener { launchPicker.launch("text/plain") }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 
     private fun processFile(uri: Uri) {
