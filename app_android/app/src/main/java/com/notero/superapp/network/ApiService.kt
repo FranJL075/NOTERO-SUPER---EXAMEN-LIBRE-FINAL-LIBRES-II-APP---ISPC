@@ -11,10 +11,15 @@ import retrofit2.http.POST
 
 object AuthInterceptor : Interceptor {
     var token: String = ""
+    fun setToken(newToken: String?) {
+        token = newToken ?: ""
+    }
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request().newBuilder()
-            .addHeader("Authorization", "Bearer $token")
-            .build()
+        val builder = chain.request().newBuilder()
+        if (token.isNotBlank()) {
+            builder.addHeader("Authorization", "Bearer $token")
+        }
+        val request = builder.build()
         return chain.proceed(request)
     }
 }
@@ -24,12 +29,22 @@ private val client = OkHttpClient.Builder()
     .build()
 
 private val retrofit: Retrofit = Retrofit.Builder()
-    .baseUrl("https://your-backend-host/api/")
+    // NOTE: 10.0.2.2 apunta al localhost del host cuando se usa el emulador Android
+    .baseUrl("http://10.0.2.2:8000/")
     .addConverterFactory(GsonConverterFactory.create())
     .client(client)
     .build()
 
 interface ApiService {
+    @Headers("Content-Type: application/json")
+    @POST("token/")
+    suspend fun login(@Body request: LoginRequest): TokenResponse
+
+    @Headers("Content-Type: application/json")
+    @POST("usuarios/registro/")
+    suspend fun register(@Body request: RegisterRequest): Unit
+
+    // Ejemplo de otro endpoint existente
     @Headers("Content-Type: application/json")
     @POST("add-items-bulk")
     suspend fun addItemsBulk(@Body request: BulkItemsRequest): BulkItemsResponse
@@ -49,5 +64,17 @@ data class ProductDto(
     val name: String,
     val price: Double,
     val image: String
+)
+
+// Data classes extras para auth
+data class LoginRequest(val email: String, val password: String)
+
+data class TokenResponse(val access: String, val refresh: String)
+
+data class RegisterRequest(
+    val email: String,
+    val password: String,
+    val first_name: String? = null,
+    val last_name: String? = null
 )
 
