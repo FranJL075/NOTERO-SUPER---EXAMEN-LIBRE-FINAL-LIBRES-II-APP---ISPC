@@ -4,4 +4,13 @@ const api = axios.create({
   baseURL: 'http://localhost:8000',
 });
 
+// Helper to attach/detach JWT token to every request
+export const setAuthToken = (token) => {
+  if (token) {
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete api.defaults.headers.common['Authorization'];
+  }
+};
+
 export default api;

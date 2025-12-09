@@ -1,6 +1,8 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import permissions
 import re  # Sanitización de entradas
 from django.contrib.auth import get_user_model
 from rest_framework.generics import CreateAPIView
@@ -11,6 +13,7 @@ from .serializers import (
     ProductoSerializer,
     ListaSerializer,
     NegocioPromocionadoSerializer,
+    UsuarioSerializer,
 )
 from .permissions import IsOwner
 
@@ -20,6 +23,15 @@ Usuario = get_user_model()
 class UsuarioRegisterView(CreateAPIView):
     serializer_class = UsuarioRegisterSerializer
     permission_classes = []
+
+
+# Returns the authenticated user's profile
+class UsuarioMeView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        serializer = UsuarioSerializer(request.user)
+        return Response(serializer.data)
 
 
 class ProductoViewSet(viewsets.ModelViewSet):
