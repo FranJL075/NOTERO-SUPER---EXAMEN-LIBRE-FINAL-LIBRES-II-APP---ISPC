@@ -55,3 +55,25 @@ Todos los documentos (pruebas, políticas de seguridad, diagramas de navegación
 
 ## Licencia
 MIT – 2025 
+
+## Cómo ejecutar el backend
+
+```bash
+cd backend
+python -m venv venv && source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+## Cómo ejecutar la app Android
+1. Abrir `app_android` con Android Studio.
+2. Sincronizar Gradle.
+3. Iniciar emulador o dispositivo físico.
+4. Ejecutar.
+
+La app intenta acceder al backend en `http://10.0.2.2:8000/` (emulador). Modificar en `ApiService.kt` si fuera necesario.
+
+## Pruebas
+- Backend: `pytest` dentro de `backend/`.
+- Android: `./gradlew connectedAndroidTest`. 
