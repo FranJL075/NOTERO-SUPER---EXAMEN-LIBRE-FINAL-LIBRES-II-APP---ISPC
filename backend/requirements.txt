@@ -11,3 +11,6 @@ django>=4.2
 djangorestframework
 djangorestframework-simplejwt
 django-cors-headers
+
+pytest>=7.4
+pytest-django>=4.7
