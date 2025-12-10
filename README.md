@@ -20,7 +20,7 @@ database/            → Scripts SQL (schema y datos de ejemplo)
 
 | Módulo   | Stack                              | Requisitos |
 |----------|------------------------------------|------------|
-| android  | Kotlin + Gradle 8                  | JDK 17, Android Studio Flamingo |
+| android  | Kotlin / Java + Gradle 8           | JDK 17, Android Studio Flamingo |
 | backend  | Python 3.11 + Django 4.2           | `pip install -r backend/requirements.txt` |
 | frontend | Expo SDK 50 (React Native 0.73)    | `npm install` con Node 18 |
 
@@ -71,6 +71,7 @@ python manage.py runserver
 2. Sincronizar Gradle.
 3. Iniciar emulador o dispositivo físico.
 4. Ejecutar.
+5. Ejemplo de interoperabilidad Kotlin-Java en `app_android/app/src/main/java/com/notero/superapp/JavaUtils.java`
 
 La app intenta acceder al backend en `http://10.0.2.2:8000/` (emulador). Modificar en `ApiService.kt` si fuera necesario.
 

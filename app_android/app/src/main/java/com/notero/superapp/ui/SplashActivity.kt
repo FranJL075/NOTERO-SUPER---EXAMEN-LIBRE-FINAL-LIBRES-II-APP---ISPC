@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.notero.superapp.R
 import com.notero.superapp.network.AuthInterceptor
 import com.notero.superapp.storage.TokenManager
+import com.notero.superapp.JavaUtils
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -16,6 +17,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        JavaUtils.debug("SplashActivity started")
 
         lifecycleScope.launch {
             val tokenManager = TokenManager(applicationContext)
