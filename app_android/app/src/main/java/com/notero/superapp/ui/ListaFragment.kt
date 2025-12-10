@@ -9,10 +9,21 @@ import com.notero.superapp.databinding.FragmentListaBinding
 import com.google.zxing.integration.android.IntentIntegrator
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.notero.superapp.ui.adapter.DetalleAdapter
+import com.notero.superapp.ui.viewmodel.ListaViewModel
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class ListaFragment : Fragment() {
     private var _binding: FragmentListaBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: ListaViewModel by viewModels()
+    private lateinit var adapter: DetalleAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentListaBinding.inflate(inflater, container, false)
@@ -21,6 +32,20 @@ class ListaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        adapter = DetalleAdapter(mutableListOf())
+        binding.recycler.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            this.adapter = this@ListaFragment.adapter
+        }
+
+        viewModel.lista.collectIn(viewLifecycleOwner) { lista ->
+            lista?.let { adapter.update(it.detalles) }
+        }
+
+        // cargar lista id=1 temporal
+        viewModel.load(1)
+
         binding.fabAdd.setOnClickListener {
             IntentIntegrator.forSupportFragment(this).apply {
                 setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
@@ -42,5 +67,11 @@ class ListaFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+}
+
+fun <T> StateFlow<T>.collectIn(owner: androidx.lifecycle.LifecycleOwner, block: (T) -> Unit) {
+    owner.lifecycleScope.launchWhenStarted {
+        collect { block(it) }
     }
 }
