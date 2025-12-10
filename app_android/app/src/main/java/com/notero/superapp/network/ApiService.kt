@@ -63,6 +63,12 @@ interface ApiService {
     @POST("listas/{id}/add_items_bulk/")
     suspend fun addItemsBulk(@Path("id") id: Int, @Body req: CodigosRequest): BulkItemsResponse
 
+    @GET("negocios/")
+    suspend fun getNegocios(): List<NegocioDto>
+
+    @POST("listas/{id}/apply_promo/")
+    suspend fun applyPromo(@Path("id") id: Int): ApplyPromoResponse
+
     companion object {
         val instance: ApiService by lazy { retrofit.create(ApiService::class.java) }
     }
@@ -112,4 +118,12 @@ data class DetalleDto(
 data class CreateListRequest(val nombre: String, val limite_presupuesto: Double?)
 
 data class CodigosRequest(val codigos: List<String>)
+
+data class NegocioDto(
+    val id: Int,
+    val nombre: String,
+    val descuento: Double
+)
+
+data class ApplyPromoResponse(val total_descuento: Double, val descuento: String)
 
