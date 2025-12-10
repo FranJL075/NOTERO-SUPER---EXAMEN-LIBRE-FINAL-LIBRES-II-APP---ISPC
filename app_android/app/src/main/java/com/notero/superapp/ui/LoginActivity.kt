@@ -10,6 +10,7 @@ import com.notero.superapp.network.ApiService
 import com.notero.superapp.network.AuthInterceptor
 import com.notero.superapp.network.LoginRequest
 import kotlinx.coroutines.launch
+import com.notero.superapp.storage.TokenManager
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -26,9 +27,9 @@ class LoginActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 try {
                     val response = ApiService.instance.login(LoginRequest(email, password))
-                    // Guardar token en SharedPreferences
-                    val prefs = getSharedPreferences("auth", MODE_PRIVATE)
-                    prefs.edit().putString("token", response.access).apply()
+                    // Guardar token con DataStore
+                    val tokenManager = com.notero.superapp.storage.TokenManager(applicationContext)
+                    tokenManager.saveTokens(response.access, response.refresh)
                     // Actualizar interceptor para siguientes requests
                     AuthInterceptor.setToken(response.access)
                     startActivity(Intent(this@LoginActivity, HomeActivity::class.java))

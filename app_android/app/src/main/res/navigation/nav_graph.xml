@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/listaFragment">
+
+    <fragment
+        android:id="@+id/listaFragment"
+        android:name="com.notero.superapp.ui.ListaFragment"
+        android:label="Lista" />
+
+    <fragment
+        android:id="@+id/promocionesFragment"
+        android:name="com.notero.superapp.ui.PromocionesFragment"
+        android:label="Promociones" />
+
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="com.notero.superapp.ui.PerfilFragment"
+        android:label="Perfil" />
+
+    <fragment
+        android:id="@+id/detalleListaFragment"
+        android:name="com.notero.superapp.ui.DetalleListaFragment"
+        android:label="Detalle Lista">
+        <argument
+            android:name="listaId"
+            app:argType="integer" />
+    </fragment>
+
+</navigation>
