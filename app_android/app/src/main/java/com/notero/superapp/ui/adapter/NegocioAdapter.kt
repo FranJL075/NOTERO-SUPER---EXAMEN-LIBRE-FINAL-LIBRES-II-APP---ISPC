@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.notero.superapp.databinding.ItemNegocioBinding
-import com.notero.superapp.network.NegocioDto
+import com.notero.superapp.model.NegocioPromocionado
 
-class NegocioAdapter(private val onClick: (NegocioDto) -> Unit) : RecyclerView.Adapter<NegocioAdapter.NegocioVH>() {
-    private val items = mutableListOf<NegocioDto>()
+class NegocioAdapter(private val onClick: (NegocioPromocionado) -> Unit) : RecyclerView.Adapter<NegocioAdapter.NegocioVH>() {
+    private val items = mutableListOf<NegocioPromocionado>()
 
     inner class NegocioVH(private val binding: ItemNegocioBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: NegocioDto) {
-            binding.tvNombre.text = "${item.nombre} - ${item.descuento}%"
+        fun bind(item: NegocioPromocionado) {
+            binding.tvNombre.text = "${item.nombre} - ${item.descuento * 100}%"
             binding.root.setOnClickListener { onClick(item) }
         }
     }
@@ -27,7 +27,7 @@ class NegocioAdapter(private val onClick: (NegocioDto) -> Unit) : RecyclerView.A
 
     override fun getItemCount(): Int = items.size
 
-    fun setData(newItems: List<NegocioDto>) {
+    fun setData(newItems: List<NegocioPromocionado>) {
         items.clear(); items.addAll(newItems); notifyDataSetChanged()
     }
 }

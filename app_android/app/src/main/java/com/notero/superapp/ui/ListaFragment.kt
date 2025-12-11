@@ -14,9 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.notero.superapp.ui.adapter.DetalleAdapter
 import com.notero.superapp.ui.viewmodel.ListaViewModel
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import com.notero.superapp.util.collectIn
 
 class ListaFragment : Fragment() {
     private var _binding: FragmentListaBinding? = null
@@ -60,18 +58,12 @@ class ListaFragment : Fragment() {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null && result.contents != null) {
             Toast.makeText(requireContext(), "Código: ${result.contents}", Toast.LENGTH_SHORT).show()
-            // TODO: llamar API para agregar producto a la lista
+            viewModel.agregarCodigo(result.contents)
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-}
-
-fun <T> StateFlow<T>.collectIn(owner: androidx.lifecycle.LifecycleOwner, block: (T) -> Unit) {
-    owner.lifecycleScope.launchWhenStarted {
-        collect { block(it) }
     }
 }

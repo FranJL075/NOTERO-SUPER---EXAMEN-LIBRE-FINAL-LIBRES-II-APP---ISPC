@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.notero.superapp.databinding.FragmentPromocionesBinding
 import com.notero.superapp.ui.adapter.NegocioAdapter
 import com.notero.superapp.ui.viewmodel.PromosViewModel
-import com.notero.superapp.data.ApiService
+import com.notero.superapp.network.ApiService
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import com.notero.superapp.util.collectIn
 import android.widget.Toast
 
 class PromocionesFragment : Fragment() {
