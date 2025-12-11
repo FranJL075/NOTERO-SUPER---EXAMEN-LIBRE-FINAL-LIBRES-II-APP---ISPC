@@ -16,7 +16,12 @@
         <activity android:name=".ui.ListasActivity" />
         <activity android:name=".ui.PromocionesActivity" />
         <activity android:name=".ui.PerfilActivity" />
-        <activity android:name=".ui.HomeActivity" />
+        <activity android:name=".ui.HomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.RegistroActivity" />
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.SplashActivity"

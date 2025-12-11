@@ -28,6 +28,37 @@ class ListaViewModel : ViewModel() {
         }
     }
 
+    fun cargarLista(id: Int) {
+        viewModelScope.launch {
+            try {
+                val dto = ListRepository.obtenerLista(id)
+                val detalles = dto.detalles.map {
+                    val prod = com.notero.superapp.model.Producto(
+                        id = it.producto.id,
+                        nombre = it.producto.name,
+                        codigo = "",
+                        precio = it.producto.price.toFloat(),
+                    )
+                    com.notero.superapp.model.DetalleLista(
+                        id = it.id,
+                        producto = prod,
+                        cantidad = it.cantidad,
+                        precioUnitario = it.precio_unitario.toFloat()
+                    )
+                }.toMutableList()
+                val lista = com.notero.superapp.model.Lista(
+                    id = dto.id,
+                    nombre = dto.nombre,
+                    limitePresupuesto = dto.limite_presupuesto?.toFloat() ?: 0f,
+                    detalles = detalles
+                )
+                _listaActual.value = lista
+            } catch (e: Exception) {
+                _error.value = e.message
+            }
+        }
+    }
+
     fun agregarPorCodigo(codigo: String) {
         val lista = _listaActual.value ?: return
         viewModelScope.launch {

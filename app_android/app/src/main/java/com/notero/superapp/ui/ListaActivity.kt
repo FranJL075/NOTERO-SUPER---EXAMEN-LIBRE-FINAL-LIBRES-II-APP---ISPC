@@ -71,8 +71,10 @@ class ListaActivity : AppCompatActivity() {
             }
         }
 
-        // Crear lista inicial si no existe (para demo)
-        if (viewModel.listaActual.value == null) {
+        val idLista = intent.getIntExtra("LISTA_ID", -1)
+        if (idLista != -1) {
+            viewModel.cargarLista(idLista)
+        } else if (viewModel.listaActual.value == null) {
             viewModel.crearLista("Mi presupuesto", 0f)
         }
 

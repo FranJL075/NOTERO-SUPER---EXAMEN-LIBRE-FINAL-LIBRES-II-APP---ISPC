@@ -46,6 +46,14 @@ object ListRepository {
         api.applyPromo(listaId)
     }
 
+    suspend fun todasMisListas() = withContext(Dispatchers.IO) {
+        api.getLists()
+    }
+
+    suspend fun obtenerLista(id: Int) = withContext(Dispatchers.IO) {
+        api.getList(id)
+    }
+
     suspend fun guardarLista(lista: Lista) = withContext(Dispatchers.IO) {
         api.patchList(lista.id, mapOf(
             "limite_presupuesto" to lista.limitePresupuesto.toDouble()
