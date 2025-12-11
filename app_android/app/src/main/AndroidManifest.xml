@@ -27,6 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.AddProductoActivity"/>
+        <activity android:name=".ui.ListaActivity"/>
     </application>
 
 </manifest>
