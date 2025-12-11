@@ -46,11 +46,6 @@ interface ApiService {
     @POST("usuarios/registro/")
     suspend fun register(@Body request: RegisterRequest): Unit
 
-    // Ejemplo de otro endpoint existente
-    @Headers("Content-Type: application/json")
-    @POST("add-items-bulk")
-    suspend fun addItemsBulk(@Body request: BulkItemsRequest): BulkItemsResponse
-
     @GET("listas/")
     suspend fun getLists(): List<ListaDto>
 
@@ -68,6 +63,15 @@ interface ApiService {
 
     @POST("listas/{id}/apply_promo/")
     suspend fun applyPromo(@Path("id") id: Int): ApplyPromoResponse
+
+    // ----- Productos -----
+    /**
+     * Devuelve el producto cuyo código de barras/QR coincida con [codigo].
+     * El backend filtra mediante query-string (?codigo=).
+     * Se devuelve una lista, pero normalmente contendrá 0 o 1 elemento.
+     */
+    @GET("productos/")
+    suspend fun getProductoPorCodigo(@retrofit2.http.Query("codigo") codigo: String): List<ProductDto>
 
     companion object {
         val instance: ApiService by lazy { retrofit.create(ApiService::class.java) }

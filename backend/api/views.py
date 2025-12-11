@@ -35,8 +35,22 @@ class UsuarioMeView(APIView):
 
 
 class ProductoViewSet(viewsets.ModelViewSet):
-    queryset = Producto.objects.all()
+    """CRUD de productos.
+
+    Si se envía el parámetro de *query string* ``?codigo=...`` solo se devuelve
+    el producto cuyo código coincida exactamente.  Esto simplifica la consulta
+    que hace la app móvil después de escanear el código de barras/QR sin tener
+    que descargar todo el catálogo.
+    """
+
     serializer_class = ProductoSerializer
+
+    def get_queryset(self):
+        queryset = Producto.objects.all()
+        codigo = self.request.query_params.get("codigo")
+        if codigo:
+            queryset = queryset.filter(codigo=codigo)
+        return queryset
 
 
 class ListaViewSet(viewsets.ModelViewSet):
