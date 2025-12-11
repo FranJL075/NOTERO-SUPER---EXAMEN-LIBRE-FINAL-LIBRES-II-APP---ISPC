@@ -5,8 +5,9 @@ package com.notero.superapp.model
 data class DetalleLista(
     val id: Int = 0,
     val producto: Producto,
-    var cantidad: Int = 1
+    var cantidad: Int = 1,
+    val precioUnitario: Float = producto.precio
 ) {
     val subtotal: Float
-        get() = cantidad * producto.precio
+        get() = precioUnitario * cantidad
 }
