@@ -15,6 +15,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.notero.superapp.R
 import com.notero.superapp.model.DetalleLista
 import com.notero.superapp.viewmodel.ListaViewModel
+import com.notero.superapp.network.ApiService
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class ListaActivity : AppCompatActivity() {
 
@@ -78,11 +81,18 @@ class ListaActivity : AppCompatActivity() {
         }
 
         btnPromo.setOnClickListener {
-            viewModel.aplicarPromo()
+            val lista = viewModel.listaActual.value
+            if (lista?.detalles?.isEmpty() == true) {
+                android.widget.Toast.makeText(this, "Lista vacía", android.widget.Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            // si aún no hay negocio seleccionado, mostrar lista
+            mostrarSelectorNegocio()
         }
 
         btnGuardar.setOnClickListener {
-            android.widget.Toast.makeText(this, "Lista guardada (demo)", android.widget.Toast.LENGTH_SHORT).show()
+            viewModel.guardarLista()
+            android.widget.Toast.makeText(this, "Lista guardada", android.widget.Toast.LENGTH_SHORT).show()
         }
 
         btnLimite.setOnClickListener {
@@ -103,5 +113,25 @@ class ListaActivity : AppCompatActivity() {
             }
             .setNegativeButton("Cancelar", null)
             .show()
+    }
+
+    private fun mostrarSelectorNegocio() {
+        // launch coroutine to fetch negocios
+        lifecycleScope.launch {
+            try {
+                val negocios = com.notero.superapp.data.ListRepository.obtenerNegocios()
+                val nombres = negocios.map { it.nombre }
+                androidx.appcompat.app.AlertDialog.Builder(this@ListaActivity)
+                    .setTitle("Selecciona un negocio")
+                    .setItems(nombres.toTypedArray()) { _, which ->
+                        val idNegocio = negocios[which].id
+                        viewModel.seleccionarNegocio(idNegocio)
+                        viewModel.aplicarPromo()
+                    }
+                    .show()
+            } catch (e: Exception) {
+                android.widget.Toast.makeText(this@ListaActivity, "Error cargando negocios", android.widget.Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }

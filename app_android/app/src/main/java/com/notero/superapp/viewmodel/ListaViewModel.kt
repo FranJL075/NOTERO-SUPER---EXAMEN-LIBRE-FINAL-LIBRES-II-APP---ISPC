@@ -69,4 +69,27 @@ class ListaViewModel : ViewModel() {
             }
         }
     }
+
+    fun guardarLista() {
+        val lista = _listaActual.value ?: return
+        viewModelScope.launch {
+            try {
+                ListRepository.guardarLista(lista)
+            } catch (e: Exception) {
+                _error.value = e.message
+            }
+        }
+    }
+
+    fun seleccionarNegocio(negocioId: Int) {
+        val lista = _listaActual.value ?: return
+        viewModelScope.launch {
+            try {
+                ListRepository.asignarNegocio(lista.id, negocioId)
+                // opcionalmente refrescar lista
+            } catch (e: Exception) {
+                _error.value = e.message
+            }
+        }
+    }
 }

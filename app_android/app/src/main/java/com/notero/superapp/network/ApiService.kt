@@ -10,6 +10,8 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.PATCH
+import retrofit2.http.Query
 
 object AuthInterceptor : Interceptor {
     var token: String = ""
@@ -72,6 +74,10 @@ interface ApiService {
      */
     @GET("productos/")
     suspend fun getProductoPorCodigo(@retrofit2.http.Query("codigo") codigo: String): List<ProductDto>
+
+    // ----- Listas -----
+    @PATCH("listas/{id}/")
+    suspend fun patchList(@Path("id") id: Int, @Body body: Map<String, @JvmSuppressWildcards Any?>): ListaDto
 
     companion object {
         val instance: ApiService by lazy { retrofit.create(ApiService::class.java) }

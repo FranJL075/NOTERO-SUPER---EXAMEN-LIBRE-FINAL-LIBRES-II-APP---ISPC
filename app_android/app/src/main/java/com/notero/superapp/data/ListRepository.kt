@@ -45,4 +45,18 @@ object ListRepository {
     suspend fun applyPromo(listaId: Int) = withContext(Dispatchers.IO) {
         api.applyPromo(listaId)
     }
+
+    suspend fun guardarLista(lista: Lista) = withContext(Dispatchers.IO) {
+        api.patchList(lista.id, mapOf(
+            "limite_presupuesto" to lista.limitePresupuesto.toDouble()
+        ))
+    }
+
+    suspend fun obtenerNegocios() = withContext(Dispatchers.IO) {
+        api.getNegocios()
+    }
+
+    suspend fun asignarNegocio(listaId: Int, negocioId: Int) = withContext(Dispatchers.IO) {
+        api.patchList(listaId, mapOf("negocio" to negocioId))
+    }
 }
