@@ -44,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Guardar"
+        android:contentDescription="@string/desc_save_list"
         app:layout_constraintEnd_toStartOf="@+id/btnPromo"
         app:layout_constraintTop_toTopOf="@id/tvTotal"/>
 
@@ -52,6 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Establecer Límite"
+        android:contentDescription="@string/desc_set_limit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tvTotal"/>
 
@@ -60,6 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Aplicar Promo"
+        android:contentDescription="@string/desc_apply_promo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvTotal"/>
 
@@ -68,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_input_add"
-        android:contentDescription="Agregar"    
+        android:contentDescription="@string/desc_add_product"    
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp"/>

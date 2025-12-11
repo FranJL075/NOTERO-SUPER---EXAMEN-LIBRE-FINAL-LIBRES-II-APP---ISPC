@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MiPresupuestoMarket</string>
+    <string name="desc_add_product">Agregar producto</string>
+    <string name="desc_delete_product">Eliminar producto de la lista</string>
+    <string name="desc_apply_promo">Aplicar descuento del negocio</string>
+    <string name="desc_save_list">Guardar lista de presupuesto</string>
+    <string name="desc_set_limit">Establecer límite de presupuesto</string>
+    <string name="desc_new_list">Crear nueva lista</string>
+</resources>
