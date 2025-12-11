@@ -29,4 +29,8 @@ data class Lista(
     }
 
     fun estaSobrePresupuesto(): Boolean = total > limitePresupuesto && limitePresupuesto > 0f
+
+    fun establecerLimite(nuevo: Float) {
+        limitePresupuesto = nuevo
+    }
 }

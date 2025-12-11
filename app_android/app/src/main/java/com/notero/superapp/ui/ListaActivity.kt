@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -46,6 +47,7 @@ class ListaActivity : AppCompatActivity() {
         val tvLimite = findViewById<TextView>(R.id.tvLimite)
         val fabAdd = findViewById<FloatingActionButton>(R.id.fabAdd)
         val btnGuardar = findViewById<Button>(R.id.btnGuardar)
+        val btnLimite = findViewById<Button>(R.id.btnLimite)
         val btnPromo = findViewById<Button>(R.id.btnPromo)
 
         viewModel.listaActual.observe(this) { lista ->
@@ -53,6 +55,10 @@ class ListaActivity : AppCompatActivity() {
                 adapter.update(lista.detalles)
                 tvTotal.text = "Total: $${"%.2f".format(lista.total)}"
                 tvLimite.text = "Límite: $${"%.2f".format(lista.limitePresupuesto)}"
+                val color = if (lista.estaSobrePresupuesto())
+                    ContextCompat.getColor(this, android.R.color.holo_red_dark)
+                else ContextCompat.getColor(this, android.R.color.black)
+                tvTotal.setTextColor(color)
             }
         }
 
@@ -78,5 +84,24 @@ class ListaActivity : AppCompatActivity() {
         btnGuardar.setOnClickListener {
             android.widget.Toast.makeText(this, "Lista guardada (demo)", android.widget.Toast.LENGTH_SHORT).show()
         }
+
+        btnLimite.setOnClickListener {
+            mostrarDialogoLimite()
+        }
+    }
+
+    private fun mostrarDialogoLimite() {
+        val input = android.widget.EditText(this).apply {
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
+        }
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Establecer límite de presupuesto")
+            .setView(input)
+            .setPositiveButton("Aceptar") { _, _ ->
+                val valor = input.text.toString().toFloatOrNull()
+                if (valor != null) viewModel.establecerLimite(valor)
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 }

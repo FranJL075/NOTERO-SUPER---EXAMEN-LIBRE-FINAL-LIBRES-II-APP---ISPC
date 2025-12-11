@@ -48,6 +48,14 @@
         app:layout_constraintTop_toTopOf="@id/tvTotal"/>
 
     <Button
+        android:id="@+id/btnLimite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Establecer Límite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvTotal"/>
+
+    <Button
         android:id="@+id/btnPromo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

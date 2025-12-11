@@ -52,6 +52,12 @@ class ListaViewModel : ViewModel() {
         _listaActual.value = lista.copy()
     }
 
+    fun establecerLimite(nuevo: Float) {
+        val lista = _listaActual.value ?: return
+        lista.establecerLimite(nuevo)
+        _listaActual.value = lista.copy()
+    }
+
     fun aplicarPromo() {
         val lista = _listaActual.value ?: return
         viewModelScope.launch {
