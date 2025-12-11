@@ -56,6 +56,10 @@ class ListaRepository(
         runCatching { api.addItemsBulk(id, CodigosRequest(codigos)) }
     }
 
+    suspend fun obtenerListasLocal(): List<Lista> = withContext(Dispatchers.IO) {
+        dao?.getAll()?.map { entityToList(it) } ?: emptyList()
+    }
+
     private fun listToEntity(lista: Lista): ListaEntity = ListaEntity(
         id = lista.id,
         nombre = lista.nombre,
