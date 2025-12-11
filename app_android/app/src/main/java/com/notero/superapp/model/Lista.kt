@@ -21,4 +21,12 @@ data class Lista(
     fun eliminarProducto(detalle: DetalleLista) {
         detalles.remove(detalle)
     }
+
+    fun toggleFavorito(productId: Int) {
+        detalles.find { it.producto.id == productId }?.let {
+            it.producto.favorito = !it.producto.favorito
+        }
+    }
+
+    fun estaSobrePresupuesto(): Boolean = total > limitePresupuesto && limitePresupuesto > 0f
 }

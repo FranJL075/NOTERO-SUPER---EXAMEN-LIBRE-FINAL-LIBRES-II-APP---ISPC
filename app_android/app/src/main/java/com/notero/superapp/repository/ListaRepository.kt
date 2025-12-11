@@ -60,6 +60,10 @@ class ListaRepository(
         dao?.getAll()?.map { entityToList(it) } ?: emptyList()
     }
 
+    suspend fun actualizarLista(lista: Lista) = withContext(Dispatchers.IO) {
+        dao?.insert(listToEntity(lista))
+    }
+
     private fun listToEntity(lista: Lista): ListaEntity = ListaEntity(
         id = lista.id,
         nombre = lista.nombre,

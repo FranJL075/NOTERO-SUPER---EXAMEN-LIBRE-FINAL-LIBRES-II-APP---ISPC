@@ -31,4 +31,18 @@ class ListaViewModel(app: Application) : AndroidViewModel(app) {
             load(id) // recargar
         }
     }
+
+    fun toggleFavorito(productId: Int) {
+        val lista = _lista.value ?: return
+        lista.toggleFavorito(productId)
+        _lista.value = lista.copy() // trigger observers
+        viewModelScope.launch { repository.actualizarLista(lista) }
+    }
+
+    fun establecerLimite(nuevoLimite: Float) {
+        val lista = _lista.value ?: return
+        lista.limitePresupuesto = nuevoLimite
+        _lista.value = lista.copy()
+        viewModelScope.launch { repository.actualizarLista(lista) }
+    }
 }

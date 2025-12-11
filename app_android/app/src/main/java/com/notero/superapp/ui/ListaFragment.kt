@@ -31,14 +31,22 @@ class ListaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = DetalleAdapter(mutableListOf())
+        adapter = DetalleAdapter(mutableListOf()) { detalle ->
+            viewModel.toggleFavorito(detalle.producto.id)
+        }
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
             this.adapter = this@ListaFragment.adapter
         }
 
         viewModel.lista.collectIn(viewLifecycleOwner) { lista ->
-            lista?.let { adapter.update(it.detalles) }
+            lista?.let {
+                adapter.update(it.detalles)
+                binding.tvTotal.text = "Total: ${it.total}" // asegurarse existe en layout
+                binding.tvTotal.setTextColor(
+                    if (it.estaSobrePresupuesto()) android.graphics.Color.RED else android.graphics.Color.BLACK
+                )
+            }
         }
 
         // cargar lista id=1 temporal
