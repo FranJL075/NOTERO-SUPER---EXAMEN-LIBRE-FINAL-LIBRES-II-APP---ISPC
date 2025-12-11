@@ -46,9 +46,18 @@ npm run android   # ó ios / web según tu plataforma
 
 ### 3. Android nativo
 ```bash
-cd android
+cd app_android
 ./gradlew :app:installDebug
 ```
+
+### Funcionalidades clave de la App Android
+
+* Escaneo de código de barras/QR para añadir productos.
+* Construcción de listas de presupuesto con límite configurable (se colorea en rojo al excederlo).
+* Marcado/Desmarcado de productos favoritos (pulsación larga – se muestra "★").
+* Modo “Negocio promocionado”: aplica un descuento global a la lista.
+* Almacenamiento offline con Room → las listas se guardan automáticamente y pueden consultarse sin conexión.
+* Actualización de precios desde el backend al volver a abrir la lista.
 
 ## Documentación
 Todos los documentos (pruebas, políticas de seguridad, diagramas de navegación, etc.) se encuentran en el directorio `Documentación/`.
