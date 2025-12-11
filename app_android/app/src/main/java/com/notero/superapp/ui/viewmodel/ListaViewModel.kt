@@ -1,6 +1,7 @@
 package com.notero.superapp.ui.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.notero.superapp.model.Lista
 import com.notero.superapp.repository.ListaRepository
@@ -8,9 +9,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ListaViewModel(
-    private val repository: ListaRepository = ListaRepository()
-) : ViewModel() {
+class ListaViewModel(app: Application) : AndroidViewModel(app) {
+    private val repository = ListaRepository(app)
     private val _lista = MutableStateFlow<Lista?>(null)
     val lista: StateFlow<Lista?> = _lista
 
