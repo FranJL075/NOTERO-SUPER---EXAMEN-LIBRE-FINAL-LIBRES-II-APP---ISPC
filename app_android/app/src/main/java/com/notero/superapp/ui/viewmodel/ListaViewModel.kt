@@ -2,15 +2,17 @@ package com.notero.superapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.notero.superapp.model.Lista
+import com.notero.superapp.repository.ListaRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import com.notero.superapp.network.ApiService
-import com.notero.superapp.network.ListaDto
 
-class ListaViewModel : ViewModel() {
-    private val _lista = MutableStateFlow<ListaDto?>(null)
-    val lista: StateFlow<ListaDto?> = _lista
+class ListaViewModel(
+    private val repository: ListaRepository = ListaRepository()
+) : ViewModel() {
+    private val _lista = MutableStateFlow<Lista?>(null)
+    val lista: StateFlow<Lista?> = _lista
 
     private val currentId = MutableStateFlow<Int?>(null)
 
@@ -18,20 +20,15 @@ class ListaViewModel : ViewModel() {
         if (currentId.value == id) return
         currentId.value = id
         viewModelScope.launch {
-            try {
-                val l = ApiService.instance.getList(id)
-                _lista.value = l
-            } catch (_: Exception) {}
+            _lista.value = repository.obtenerLista(id)
         }
     }
 
-    fun addCodigo(codigo: String) {
+    fun agregarCodigo(codigo: String) {
         val id = currentId.value ?: return
         viewModelScope.launch {
-            try {
-                ApiService.instance.addItemsBulk(id, CodigosRequest(listOf(codigo)))
-                load(id)
-            } catch (_: Exception) {}
+            repository.agregarItems(id, listOf(codigo))
+            load(id) // recargar
         }
     }
 }

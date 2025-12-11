@@ -2,21 +2,29 @@ package com.notero.superapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.notero.superapp.model.NegocioPromocionado
+import com.notero.superapp.network.ApiService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import com.notero.superapp.network.ApiService
-import com.notero.superapp.network.NegocioDto
 
-class PromosViewModel : ViewModel() {
-    private val _negocios = MutableStateFlow<List<NegocioDto>>(emptyList())
-    val negocios: StateFlow<List<NegocioDto>> = _negocios
+class PromosViewModel(
+    private val api: ApiService = ApiService.instance
+) : ViewModel() {
+    private val _negocios = MutableStateFlow<List<NegocioPromocionado>>(emptyList())
+    val negocios: StateFlow<List<NegocioPromocionado>> = _negocios
 
     init {
         viewModelScope.launch {
-            try {
-                _negocios.value = ApiService.instance.getNegocios()
-            } catch (_: Exception) {}
+            runCatching { api.getNegocios() }.onSuccess { listDto ->
+                _negocios.value = listDto.map {
+                    NegocioPromocionado(
+                        id = it.id,
+                        nombre = it.nombre,
+                        descuento = it.descuento.toFloat()
+                    )
+                }
+            }
         }
     }
 }
