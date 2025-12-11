@@ -137,3 +137,17 @@ data class NegocioDto(
 
 data class ApplyPromoResponse(val total_descuento: Double, val descuento: String)
 
+// -------- Usuario --------
+@GET("usuarios/yo/")
+suspend fun getPerfil(): PerfilDto
+
+@PATCH("usuarios/yo/")
+suspend fun updatePerfil(@Body body: Map<String, @JvmSuppressWildcards Any?>): PerfilDto
+
+data class PerfilDto(
+    val id: Int,
+    val email: String,
+    val nombre: String?,
+    val ubicacion: String?
+)
+
