@@ -1,88 +1,129 @@
-# Notero Super App – Proyecto Full-Stack Móvil y Web
+<img width="500" height="500" alt="Logo LiSTOP!" src="https://github.com/user-attachments/assets/756b7443-9692-43dd-95e4-1ad6ac47eb4a" />
 
-Este repositorio contiene **tres módulos principales** (Android nativo, API Django y App React Native) junto con toda la documentación y scripts de base de datos necesarios.
+# 🛒 LiSTOP! – Aplicación móvil para presupuestos de supermercado
 
-## Estructura del repositorio
+LiSTOP! es una aplicación móvil nativa para Android diseñada para ayudarte a organizar tus compras del supermercado, controlar tus gastos, crear presupuestos inteligentes y escanear productos mediante códigos de barras o QR.
 
-```text
-android/             → Aplicación Android escrita en Kotlin (antes `app_android`)
-backend/             → API REST Django + DRF
-frontend/            → App móvil Expo React Native
-Documentación/       → Documentos funcionales, pruebas, ciberseguridad, diagramas
-   ├─ Arquitectura.md
-   ├─ Riesgos_ISO27001.md
-   ├─ Matriz_Pruebas.md
-   └─ …
-database/            → Scripts SQL (schema y datos de ejemplo)
-```
+Es rápida, intuitiva, accesible y pensada para resolver un problema real: **evitar sorpresas al llegar a la caja**, permitiéndote saber con exactitud cuánto vas gastando.
 
-## Requisitos rápidos
+---
 
-| Módulo   | Stack                              | Requisitos |
-|----------|------------------------------------|------------|
-| android  | Kotlin + Gradle 8                  | JDK 17, Android Studio Flamingo |
-| backend  | Python 3.11 + Django 4.2           | `pip install -r backend/requirements.txt` |
-| frontend | Expo SDK 50 (React Native 0.73)    | `npm install` con Node 18 |
+## 🚀 Características principales
 
-## Primeros pasos
+### 🛍️ Gestión inteligente de listas
+- Crear listas de compras personalizadas.
+- Agregar productos ingresando el código o escaneándolo.
+- Modificar cantidades.
+- Eliminar productos.
+- Marcar productos como favoritos/prioritarios.
+- Guardar listas en tu perfil.
 
-### 1. Backend
-```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -r backend/requirements.txt
-# Variables de entorno (ejemplo para SQLite)
-export DJANGO_SECRET_KEY="changeme"
-export DATABASE_URL="sqlite:///db.sqlite3"
-python backend/manage.py migrate
-python backend/manage.py runserver
-```
+### 📸 Escaneo de productos
+- Escaneo de código de barras o QR.
+- Lectura rápida y segura.
+- Identificación automática del producto (si existe en la base de datos).
 
-### 2. Frontend (Expo)
-```bash
-cd frontend
-npm install
-npm run android   # ó ios / web según tu plataforma
-```
+### 💰 Control de presupuesto
+- Establecer un límite de gasto.
+- Totales y subtotales calculados en tiempo real.
+- Alertas al superar el presupuesto fijado.
 
-### 3. Android nativo
-```bash
-cd app_android
-./gradlew :app:installDebug
-```
+### 🏷️ Modo “Negocio Promocionado”
+Un segundo modo especial donde:
+- Se aplican descuentos automáticamente.
+- Se muestra el “ahorro total”.
+- Se establece un presupuesto base según el comercio.
+- Permite crear listas promocionadas con sus beneficios correspondientes.
 
-### Funcionalidades clave de la App Android
+### 👤 Perfil y configuración
+- Registro e inicio de sesión mediante Firebase Authentication.
+- Guardado de listas previas.
+- Configuración de ubicación.
+- Edición de datos del usuario.
+- Cerrar sesión.
 
-* Escaneo de código de barras/QR para añadir productos.
-* Construcción de listas de presupuesto con límite configurable (se colorea en rojo al excederlo).
-* Marcado/Desmarcado de productos favoritos (pulsación larga – se muestra "★").
-* Modo “Negocio promocionado”: aplica un descuento global a la lista.
-* Almacenamiento offline con Room → las listas se guardan automáticamente y pueden consultarse sin conexión.
-* Actualización de precios desde el backend al volver a abrir la lista.
+---
 
-## Documentación
-Todos los documentos (pruebas, políticas de seguridad, diagramas de navegación, etc.) se encuentran en el directorio `Documentación/`.
+## 🧩 Tecnologías utilizadas
 
-## Licencia
-MIT – 2025 
+- **Android Studio**
+- **Java**
+- **XML (UI layouts)**
+- **Firebase Authentication**
+- **Firebase Database / Firestore**
+- **SQLite (persistencia offline)**
+- **ML Kit / ZXing** para escaneo de códigos
+- **GitHub** para control de versiones
 
-## Cómo ejecutar el backend
+---
 
-```bash
-cd backend
-python -m venv venv && source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py runserver
-```
+## 📡 Funciona offline
+LiSTOP! utiliza SQLite para trabajar sin conexión.  
+Cuando vuelve el Internet, sincroniza automáticamente con Firebase.
 
-## Cómo ejecutar la app Android
-1. Abrir `app_android` con Android Studio.
-2. Sincronizar Gradle.
-3. Iniciar emulador o dispositivo físico.
-4. Ejecutar.
+---
 
-La app intenta acceder al backend en `http://10.0.2.2:8000/` (emulador). Modificar en `ApiService.kt` si fuera necesario.
+## 📱 Navegación de la App
 
-## Pruebas
-- Backend: `pytest` dentro de `backend/`.
-- Android: `./gradlew connectedAndroidTest`. 
+1. Pantalla de Inicio  
+2. Login / Registro  
+3. Página Principal  
+   - Mis Listas  
+   - Negocio Promocionado  
+   - Perfil  
+4. Gestión de Listas  
+5. Perfil y configuración  
+
+El esquema visual completo se encuentra en la documentación IEEE-830.
+
+---
+
+## 📄 Documentación del Proyecto
+
+En este repositorio encontrarás:
+
+### 📘 **IEEE-830 completo**
+Incluye requisitos funcionales, no funcionales, diagramas, flujo de navegación y anexos.
+
+### 🧪 **Documento de Testing**
+- Plan de pruebas  
+- Casos de prueba  
+- Matriz de trazabilidad  
+- Pruebas de accesibilidad (Ley 26.653)  
+- Pruebas del módulo Negocio Promocionado  
+
+### 📚 **Documentos adicionales**
+- Arquitectura del sistema  
+- Estructura de la base de datos  
+- Manual de usuario (si aplica)
+
+> Todos disponibles en la carpeta `/docs`.
+
+---
+
+## 🎥 Videos del Proyecto
+
+*(Reemplazar los enlaces con los correspondientes cuando los tengas)*
+
+- Video técnico del código → [link]  
+- Video de accesibilidad → [link]  
+- Video de navegación → [link]  
+- Explicación general del proyecto → [link]  
+
+---
+
+## 📥 Descargas
+
+- **APK – LiSTOP! v1.0** → [link]  
+- **ZIP del proyecto exportado** → [link]  
+- **Drive con la documentación completa** → [link]
+
+---
+
+## 📦 Instalación
+
+1. Descargar el archivo `LiSTOP! v1.0.apk`
+2. Activar “Instalar apps de orígenes desconocidos”
+3. Instalar en dispositivo Android 7+  
+4. Crear cuenta o iniciar sesión  
+5. ¡Listo para usar!
