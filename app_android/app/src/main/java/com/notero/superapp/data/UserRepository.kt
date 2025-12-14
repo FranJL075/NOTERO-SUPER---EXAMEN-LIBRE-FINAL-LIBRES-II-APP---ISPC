@@ -15,3 +15,4 @@ object UserRepository {
         api.updatePerfil(mapOf("ubicacion" to nueva))
     }
 }
+
